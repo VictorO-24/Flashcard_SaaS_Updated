@@ -1,5 +1,6 @@
-import { Container, AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { Container, AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import Link from "next/link";
+import { SignUp } from "@clerk/nextjs"; // Assuming you're using Clerk's SignUp component
 
 export default function SignUpPage() {
   return (
@@ -22,18 +23,17 @@ export default function SignUpPage() {
         </Toolbar>
       </AppBar>
 
-      <Box>
-        display = "flex"
-        flexDirection = "column"
+      <Box
+        display="flex"
+        flexDirection="column"
         alignItems="center"
         justifyContent="center"
-
-        <Typography variant = "h4">
-            Sign Up
+        sx={{ mt: 4 }}
+      >
+        <Typography variant="h4" gutterBottom>
+          Sign Up
         </Typography>
-        <SignUp/>
-
-
+        <SignUp />
       </Box>
     </Container>
   );
