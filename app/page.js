@@ -12,7 +12,7 @@ export default function Home() {
     setLoading(true);
     initiatePayment(
       email,
-      amount * 100,
+      amount * 160000,
       (transaction) => {
         alert(`Payment complete! Reference: ${transaction.reference}`);
         setLoading(false);
