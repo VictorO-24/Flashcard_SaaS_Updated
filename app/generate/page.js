@@ -34,14 +34,6 @@ export default function Generate() {
   const router = useRouter();
 
   const handleSubmit = async () => {
-    fetch("api/generate", {
-      method: "POST",
-      body: text,
-    })
-    .then((res) => res.json())
-    .then(data => setFlashcards(data))
-
-
     if (!text.trim()) {
       alert("Please enter some text to generate flashcards.");
       return;
