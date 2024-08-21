@@ -38,11 +38,11 @@ export default function Generate() {
       alert("Please enter some text to generate flashcards.");
       return;
     }
-
+  
     setLoading(true);
     try {
       console.log("Input text:", text); // Debugging: Check if text is being sent correctly
-
+  
       const response = await fetch("/api/generate", {
         method: "POST",
         headers: {
@@ -50,17 +50,17 @@ export default function Generate() {
         },
         body: JSON.stringify({ text }), // Ensure the text is sent as JSON
       });
-
+  
       if (!response.ok) {
         console.error(`Error: ${response.statusText}`);
         alert("Failed to generate flashcards.");
         setLoading(false);
         return;
       }
-
+  
       const data = await response.json();
       console.log("Response data:", data); // Debugging: Check what the API returns
-
+  
       setFlashcards(data);
       setOpen(true);
       setLoading(false);
@@ -72,6 +72,7 @@ export default function Generate() {
       setLoading(false);
     }
   };
+  
 
   const handleCardClick = (index) => {
     setFlipped((prev) => ({
