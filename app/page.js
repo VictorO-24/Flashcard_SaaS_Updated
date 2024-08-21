@@ -2,11 +2,15 @@
 
 import { useState } from "react";
 import { initiatePayment } from "@/utils/paystack";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { AppBar, Toolbar, Typography, Container, Button, Box, Grid } from "@mui/material";
+import { SignedIn, SignedOut, UserButton, useAuth } from "@clerk/nextjs";
+import { AppBar, Toolbar, Typography, Container, Button, Box, Grid, Dialog, DialogContent, DialogActions } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false); // State to manage popup visibility
+  const { isSignedIn } = useAuth(); // Get the signed-in status
+  const router = useRouter();
 
   const handlePayment = (amount, email) => {
     setLoading(true);
@@ -22,6 +26,18 @@ export default function Home() {
         setLoading(false);
       }
     );
+  };
+
+  const handleGetStarted = () => {
+    if (!isSignedIn) {
+      setOpen(true); // Open popup if not signed in
+    } else {
+      router.push("/generate"); // Redirect to generate page if signed in
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false); // Close the popup
   };
 
   return (
@@ -42,7 +58,14 @@ export default function Home() {
       <Box sx={{ textAlign: "center", my: 4 }}>
         <Typography variant="h2" gutterBottom>Welcome to Flashcard SaaS</Typography>
         <Typography variant="h5" gutterBottom>The easiest way to make flashcards from your text</Typography>
-        <Button variant="contained" color="primary" sx={{ mt: 2 }}>Get Started</Button>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          sx={{ mt: 2 }} 
+          onClick={handleGetStarted} 
+        >
+          Get Started
+        </Button>
       </Box>
 
       <Box sx={{ my: 6 }}>
@@ -100,6 +123,17 @@ export default function Home() {
           </Grid>
         </Grid>
       </Box>
+
+      {/* Popup Dialog */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogContent>
+          <Typography variant="body1">Please sign in to get started with generating flashcards.</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+          <Button href="/sign-in" color="primary">Sign In</Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 }
